@@ -383,7 +383,7 @@ const EMAILJS_SERVICE_ID  = "IL_TUO_SERVICE_ID";
 const EMAILJS_TEMPLATE_ID = "IL_TUO_TEMPLATE_ID";
 /* ══════════════════════════════════════ */
 
-emailjs.init(c8fFFBt8jsD-oqM4O);
+emailjs.init("c8fFFBt8jsD-oqM4O");
 
 let selectedPlan = "Non selezionato";
 
@@ -403,7 +403,7 @@ function handleSubmit(e) {
   const name  = document.getElementById('inp-name').value.trim();
   const email = document.getElementById('inp-email').value.trim();
 
-  emailjs.send(service_z9mrcwj, template_32v30wf, {
+  emailjs.send("service_z9mrcwj", "template_32v30wf", {
     name:  name,
     email: email,
     plan:  selectedPlan
