@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudioFlow — Smetti di inviare documenti a mano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C9A84C; --gold2: #E8C872;
+  --dark: #0D0D0D; --dark2: #141414; --dark3: #1A1A1A;
+  --border: #252525; --dim: #888; --dim2: #555;
+  --white: #F8F6F1; --green: #4CAF7A; --red: #E05555;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; background: rgba(13,13,13,.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(201,168,76,.1); }
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 21px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-bar { width: 3px; height: 26px; background: var(--gold); border-radius: 2px; }
+.logo span { color: var(--gold); }
+.nav-cta { background: var(--gold); color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background .2s; }
+.nav-cta:hover { background: var(--gold2); }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 48px 80px; position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; top: -300px; right: -300px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(201,168,76,.06) 0%, transparent 65%); pointer-events: none; }
+.hero-inner { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 400px; gap: 80px; align-items: center; position: relative; z-index: 1; width: 100%; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.2); border-radius: 100px; padding: 6px 14px; font-size: 11px; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 28px; animation: fadeUp .5s ease both; }
+.hero-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 58px; line-height: 1.05; margin-bottom: 28px; animation: fadeUp .5s ease .1s both; }
+.hero-title em { font-style: normal; color: var(--gold); }
+.hero-subtitle { font-size: 17px; color: var(--dim); font-weight: 300; line-height: 1.75; margin-bottom: 36px; max-width: 500px; animation: fadeUp .5s ease .2s both; }
+.hero-subtitle strong { color: var(--white); font-weight: 500; }
+.roi-strip { display: flex; align-items: center; gap: 12px; background: var(--dark3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 10px; padding: 14px 18px; margin-bottom: 36px; animation: fadeUp .5s ease .3s both; max-width: 480px; }
+.roi-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--green); white-space: nowrap; }
+.roi-divider { width: 1px; height: 30px; background: var(--border); flex-shrink: 0; }
+.roi-text { font-size: 13px; color: var(--dim); line-height: 1.45; }
+.roi-text strong { color: var(--white); display: block; }
+.hero-cta { animation: fadeUp .5s ease .4s both; }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; transition: all .2s; }
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,.2); }
+.hero-note { font-size: 12px; color: var(--dim2); margin-top: 12px; }
+
+/* FORM */
+.form-card { background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; padding: 36px; position: relative; animation: fadeUp .5s ease .15s both; }
+.form-card::before { content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.form-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 5px; }
+.form-sub { font-size: 13px; color: var(--dim); margin-bottom: 24px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 7px; font-weight: 500; }
+.field input { width: 100%; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; padding: 13px 15px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--white); outline: none; transition: border-color .2s; }
+.field input:focus { border-color: var(--gold); }
+.field input::placeholder { color: var(--dim2); }
+.btn-form { width: 100%; background: var(--gold); color: var(--dark); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; padding: 15px; border: none; border-radius: 10px; cursor: pointer; margin-top: 8px; transition: all .2s; }
+.btn-form:hover { background: var(--gold2); }
+.form-privacy { font-size: 11px; color: var(--dim2); text-align: center; margin-top: 12px; line-height: 1.5; }
+
+/* SECTIONS */
+section { padding: 88px 48px; position: relative; z-index: 1; }
+.section-inner { max-width: 1140px; margin: 0 auto; }
+.section-tag { font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: 500; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 42px; line-height: 1.1; margin-bottom: 14px; }
+.section-sub { font-size: 16px; color: var(--dim); max-width: 540px; line-height: 1.7; }
+
+/* PAIN */
+.pain-section { background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.pain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 52px; }
+.pain-list { display: flex; flex-direction: column; gap: 16px; }
+.pain-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px; background: var(--dark3); border: 1px solid var(--border); border-radius: 12px; }
+.pain-ico { width: 38px; height: 38px; flex-shrink: 0; background: rgba(224,85,85,.08); border: 1px solid rgba(224,85,85,.15); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.pain-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.pain-body p { font-size: 13px; color: var(--dim); line-height: 1.5; }
+.pain-calc { background: var(--dark3); border: 1px solid var(--border); border-radius: 18px; padding: 32px; }
+.calc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 22px; }
+.calc-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.calc-row:last-of-type { border-bottom: none; }
+.calc-row .lbl { color: var(--dim); }
+.calc-row .val { font-weight: 600; }
+.calc-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 6px; }
+.calc-total .lbl { font-size: 14px; font-weight: 600; }
+.calc-total .val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--red); }
+.calc-solution { background: rgba(76,175,122,.07); border: 1px solid rgba(76,175,122,.2); border-radius: 9px; padding: 13px 16px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center; }
+.calc-solution .lbl { font-size: 13px; color: var(--dim); }
+.calc-solution .val { font-size: 17px; font-weight: 800; color: var(--green); font-family: 'Syne', sans-serif; }
+
+/* STEPS */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 52px; }
+.step { background: var(--dark3); border: 1px solid var(--border); border-radius: 14px; padding: 26px; transition: border-color .2s; min-height: 100px; }
+.step:hover { border-color: rgba(201,168,76,.3); }
+.step-num { width: 36px; height: 36px; background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.2); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--gold); margin-bottom: 16px; }
+.step h3 { font-size: 16px; font-weight: 600; margin-bottom: 7px; }
+.step p { font-size: 13px; color: var(--dim); line-height: 1.6; }
+
+/* ROI */
+.roi-section { background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.roi-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 52px; }
+.roi-card { background: var(--dark3); border: 1px solid var(--border); border-radius: 14px; padding: 30px; text-align: center; }
+.big-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 52px; line-height: 1; margin-bottom: 8px; }
+.big-num.gold { color: var(--gold); }
+.big-num.green { color: var(--green); }
+.big-num.white { color: var(--white); }
+.roi-label { font-size: 14px; color: var(--dim); margin-bottom: 10px; }
+.roi-desc { font-size: 12px; color: var(--dim2); line-height: 1.5; }
+
+/* PRICING */
+.pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 780px; margin: 52px auto 0; }
+.price-card { background: var(--dark3); border: 1px solid var(--border); border-radius: 18px; padding: 32px; position: relative; }
+.price-card.featured { border-color: var(--gold); }
+.price-card.featured::before { content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.price-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--dark); font-size: 10px; font-weight: 700; padding: 3px 12px; border-radius: 100px; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; }
+.price-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.price-desc { font-size: 13px; color: var(--dim); margin-bottom: 20px; }
+.price-amount { display: flex; align-items: baseline; gap: 3px; margin-bottom: 3px; }
+.price-amount .sym { font-size: 18px; color: var(--dim); font-weight: 300; }
+.price-amount .num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 52px; color: var(--gold); line-height: 1; }
+.price-amount .mo { font-size: 13px; color: var(--dim); }
+.price-setup { font-size: 12px; color: var(--dim2); margin-bottom: 6px; }
+.price-promo { font-size: 12px; color: var(--green); background: rgba(76,175,122,.07); border: 1px solid rgba(76,175,122,.15); border-radius: 6px; padding: 5px 10px; display: inline-block; margin-bottom: 22px; }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+.price-features li { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--dim); }
+.price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.btn-price { width: 100%; padding: 13px; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; border: none; }
+.btn-price.gold { background: var(--gold); color: var(--dark); }
+.btn-price.gold:hover { background: var(--gold2); }
+.btn-price.outline { background: transparent; border: 1px solid var(--border); color: var(--white); }
+.btn-price.outline:hover { border-color: var(--gold); color: var(--gold); }
+
+/* FINAL CTA */
+.final-cta { text-align: center; padding: 100px 48px; position: relative; overflow: hidden; }
+.final-cta::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,168,76,.05) 0%, transparent 70%); pointer-events: none; }
+.final-inner { position: relative; z-index: 1; }
+.final-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 50px; line-height: 1.1; margin-bottom: 14px; }
+.final-sub { font-size: 16px; color: var(--dim); margin-bottom: 40px; }
+
+footer { border-top: 1px solid var(--border); padding: 28px 48px; text-align: center; font-size: 12px; color: var(--dim2); }
+footer a { color: var(--gold); text-decoration: none; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 820px) {
+  nav { padding: 14px 20px; }
+  .nav-cta { display: none; }
+  section { padding: 64px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-title { font-size: 38px; }
+  .section-title { font-size: 30px; }
+  .final-title { font-size: 34px; }
+  .pain-grid { grid-template-columns: 1fr; gap: 36px; }
+  .steps { grid-template-columns: 1fr; }
+  .roi-cards { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
+  .final-cta { padding: 72px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#"><div class="logo-bar"></div>Studio<span>Flow</span></a>
+  <a class="nav-cta" href="#form">Richiedi una demo →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">⚡ Per studi commercialisti</div>
+      <h1 class="hero-title">Smetti di inviare<br>documenti<br><em>a mano.</em></h1>
+      <p class="hero-subtitle">
+        Ogni mese perdi ore a inviare F24, 730 e pratiche ai tuoi clienti.
+        <strong>StudioFlow lo fa al posto tuo.</strong>
+        Carica il file — il sistema trova il cliente e invia l'email. Fine.
+      </p>
+      <div class="roi-strip">
+        <div class="roi-num">480–800€</div>
+        <div class="roi-divider"></div>
+        <div class="roi-text">
+          <strong>valore recuperato ogni mese</strong>
+          4-5 ore × tariffa media 120–160€/ora
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#form" class="btn-primary">Richiedi una demo gratuita →</a>
+        <p class="hero-note">Nessun impegno · 10 minuti · Funziona da browser</p>
+      </div>
+    </div>
+
+    <div class="form-card" id="form">
+      <h3 class="form-title">Prenota la tua demo</h3>
+      <p class="form-sub">Ti mostriamo tutto in 10 minuti. Nessun impegno.</p>
+      <form onsubmit="handleSubmit(event)">
+        <div class="field">
+          <label>Nome e Cognome</label>
+          <input type="text" name="name" placeholder="Dott. Mario Rossi" required>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="mario.rossi@studio.it" required>
+        </div>
+        <button type="submit" class="btn-form">Voglio vedere la demo →</button>
+      </form>
+      <p class="form-privacy">🔒 Nessun impegno. Ti rispondiamo entro 24 ore.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain-section">
+  <div class="section-inner">
+    <div class="section-tag">Il problema</div>
+    <h2 class="section-title">Ogni mese, lo stesso<br>lavoro ripetitivo.</h2>
+    <div class="pain-grid">
+      <div class="pain-list">
+        <div class="pain-item">
+          <div class="pain-ico">⏱</div>
+          <div class="pain-body">
+            <h4>Ore perse ogni mese</h4>
+            <p>Scaricare i PDF, cercare l'email del cliente, allegare, inviare. Decine di volte. Ogni mese.</p>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-ico">❌</div>
+          <div class="pain-body">
+            <h4>Errori e dimenticanze</h4>
+            <p>File al cliente sbagliato, documento dimenticato, email non ricevuta.</p>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-ico">📞</div>
+          <div class="pain-body">
+            <h4>Telefonate dei clienti</h4>
+            <p>"Dottore, non ho ricevuto il mio F24." Ogni invio mancato genera interruzioni.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pain-calc">
+        <h4 class="calc-title">Quanto ti costa ogni mese?</h4>
+        <div class="calc-row"><span class="lbl">Ore spese per invii</span><span class="val">4–5 ore</span></div>
+        <div class="calc-row"><span class="lbl">Tariffa oraria media</span><span class="val">120–160 €/ora</span></div>
+        <div class="calc-total"><span class="lbl">Valore del tempo perso</span><span class="val">480–800 €</span></div>
+        <div class="calc-solution">
+          <span class="lbl">Costo mensile StudioFlow</span>
+          <span class="val">39 €/mese</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COME FUNZIONA -->
+<section>
+  <div class="section-inner">
+    <div class="section-tag">Come funziona</div>
+    <h2 class="section-title">Tre passi.<br>Poi il sistema lavora per te.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Carica il documento</h3>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Il sistema abbina</h3>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Il cliente riceve</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section class="roi-section">
+  <div class="section-inner">
+    <div class="section-tag">Il ritorno sull'investimento</div>
+    <h2 class="section-title">I numeri parlano da soli.</h2>
+    <p class="section-sub">StudioFlow non è un costo. È un investimento che si ripaga alla prima settimana del mese.</p>
+    <div class="roi-cards">
+      <div class="roi-card">
+        <div class="big-num gold">39€</div>
+        <div class="roi-label">al mese</div>
+        <div class="roi-desc">Per studi fino a 50 clienti. Primo mese incluso nel setup.</div>
+      </div>
+      <div class="roi-card">
+        <div class="big-num green">600€</div>
+        <div class="roi-label">valore recuperato ogni mese</div>
+        <div class="roi-desc">4-5 ore × 120€/ora. Tempo che torni a dedicare ai clienti.</div>
+      </div>
+      <div class="roi-card">
+        <div class="big-num white">15×</div>
+        <div class="roi-label">ritorno sull'investimento</div>
+        <div class="roi-desc">Per ogni euro speso in StudioFlow, recuperi 15 euro di tempo fatturabile.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREZZI -->
+<section>
+  <div class="section-inner">
+    <div class="section-tag">Prezzi</div>
+    <h2 class="section-title" style="text-align:center">Semplice e trasparente.</h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto">Nessun contratto annuale. Disdici quando vuoi.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Fino a 50 clienti</div>
+        <div class="price-desc">Per studi di piccole dimensioni</div>
+        <div class="price-amount"><span class="sym">€</span><span class="num">39</span><span class="mo">/mese</span></div>
+        <p class="price-setup">Setup iniziale: €120 una tantum</p>
+        <div class="price-promo">✓ Primo mese incluso nel setup</div>
+        <ul class="price-features">
+          <li>Fino a 50 clienti</li>
+          <li>Invio automatico documenti</li>
+          <li>Dashboard e storico invii</li>
+          <li>F24, 730 e qualsiasi PDF</li>
+          <li>Supporto via email</li>
+        </ul>
+        <button class="btn-price outline" onclick="scrollToForm()">Richiedi demo</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Studi medi e grandi</div>
+        <div class="price-name">Oltre 50 clienti</div>
+        <div class="price-desc">Per studi con più clienti</div>
+        <div class="price-amount"><span class="sym">€</span><span class="num">70</span><span class="mo">/mese</span></div>
+        <p class="price-setup">Setup iniziale: €200 una tantum</p>
+        <div class="price-promo">✓ Primo mese incluso nel setup</div>
+        <ul class="price-features">
+          <li>Clienti illimitati</li>
+          <li>Invio automatico documenti</li>
+          <li>Dashboard e storico invii</li>
+          <li>F24, 730 e qualsiasi PDF</li>
+          <li>Supporto prioritario</li>
+        </ul>
+        <button class="btn-price gold" onclick="scrollToForm()">Richiedi demo →</button>
+      </div>
+    </div>
+
+    <!-- SCONTO ANNUALE -->
+    <div style="margin-top:28px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:20px 28px;max-width:780px;margin-left:auto;margin-right:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--gold);margin-bottom:4px">🎁 Abbonamento annuale — 15% di sconto</div>
+        <div style="font-size:13px;color:var(--dim)">Scegli il pagamento annuale e risparmia 2 mesi ogni anno. Il risparmio si somma al recupero di tempo già garantito.</div>
+      </div>
+      <button class="btn-price gold" style="width:auto;white-space:nowrap;padding:12px 22px" onclick="scrollToForm()">Scopri di più</button>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-inner">
+    <h2 class="final-title">Pronto a recuperare<br><em style="color:var(--gold);font-style:normal">600€ al mese?</em></h2>
+    <p class="final-sub">Demo gratuita di 10 minuti. Nessun impegno.</p>
+    <a href="#form" class="btn-primary" style="font-size:16px;padding:16px 36px">Prenota la tua demo gratuita →</a>
+    <p style="margin-top:14px;font-size:12px;color:var(--dim2)">Ti rispondiamo entro 24 ore · Primo mese incluso nel setup</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 StudioFlow · <a href="#">Privacy Policy</a> · studioflow2.vercel.app</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+/* ── EMAILJS INIT ── */
+// Sostituisci con la tua Public Key
+emailjs.init("c8fFFBt8jsD-oqM4O");
+
+/* ── FORM ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.btn-form');
+  const originalText = btn.textContent;
+  btn.textContent = 'Invio in corso...';
+  btn.disabled = true;
+
+  // Sostituisci SERVICE_ID e TEMPLATE_ID con i tuoi codici
+  emailjs.sendForm("service_z9mrcwj", "template_32v30wfD", e.target)
+    .then(() => {
+      btn.textContent = '✓ Ricevuto! Ti contatteremo presto.';
+      btn.style.background = '#4CAF7A';
+      btn.style.color = '#fff';
+    })
+    .catch(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Errore nell\'invio. Riprova o scrivici direttamente a studioflow.m@gmail.com');
+    });
+}
+function scrollToForm() {
+  document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
+}
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ── SCROLL ANIMATIONS ──
+   Tutti gli effetti usano CSS transform/opacity — hardware accelerated.
+   IntersectionObserver: zero polling, zero layout thrashing.
+*/
+
+// 1. Elementi che fanno fade+slide quando entrano nel viewport
+const revealEls = document.querySelectorAll(
+  '.pain-item, .step, .roi-card, .price-card, .form-card, ' +
+  '.pain-calc, .section-title, .section-sub, .section-tag, ' +
+  '.roi-strip, .final-title, .final-sub'
+);
+
+revealEls.forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity .55s ease, transform .55s ease';
+  el.style.willChange = 'opacity, transform';
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      entry.target.style.willChange = 'auto';
+      revealObserver.unobserve(entry.target); // fire once
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+// 2. Step: entrano in sequenza con delay progressivo
+document.querySelectorAll('.step').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.12}s`;
+});
+
+// 3. Pain items: entrano in sequenza
+document.querySelectorAll('.pain-item').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+});
+
+// 4. ROI cards: entrano in sequenza
+document.querySelectorAll('.roi-card').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+});
+
+// 5. Counter animation sui numeri ROI
+function animateCounter(el, target, suffix, duration = 1200) {
+  const isFloat = String(target).includes('.');
+  let start = null;
+  const step = (ts) => {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    // ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = isFloat
+      ? (target * eased).toFixed(1)
+      : Math.floor(target * eased);
+    el.textContent = current + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const raw = el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    animateCounter(el, parseFloat(raw), suffix);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+// Applica il counter ai big-num
+const roiCards = document.querySelectorAll('.roi-card');
+if (roiCards[0]) {
+  const n1 = roiCards[0].querySelector('.big-num');
+  if (n1) { n1.dataset.count = '39'; n1.dataset.suffix = '€'; counterObserver.observe(n1); }
+}
+if (roiCards[1]) {
+  const n2 = roiCards[1].querySelector('.big-num');
+  if (n2) { n2.dataset.count = '600'; n2.dataset.suffix = '€'; counterObserver.observe(n2); }
+}
+if (roiCards[2]) {
+  const n3 = roiCards[2].querySelector('.big-num');
+  if (n3) { n3.dataset.count = '15'; n3.dataset.suffix = '×'; counterObserver.observe(n3); }
+}
+
+// 6. Parallax leggerissimo sulla hero — solo su desktop, solo sull'asse Y
+if (window.innerWidth > 820) {
+  const heroContent = document.querySelector('.hero-inner');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < window.innerHeight && heroContent) {
+          heroContent.style.transform = `translateY(${y * 0.06}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+// 7. Nav: diventa più compatta dopo lo scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    nav.style.padding = '12px 48px';
+    nav.style.background = 'rgba(13,13,13,.97)';
+  } else {
+    nav.style.padding = '18px 48px';
+    nav.style.background = 'rgba(13,13,13,.92)';
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
