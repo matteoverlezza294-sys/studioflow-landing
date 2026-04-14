@@ -5,169 +5,179 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudioFlow — Smetti di inviare documenti a mano</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A84C;--gold2:#E8C872;
   --dark:#0D0D0D;--dark2:#141414;--dark3:#1A1A1A;
-  --border:#252525;--dim:#888;--dim2:#555;
-  --white:#F8F6F1;--green:#4CAF7A;--red:#E05555;
-  --r:14px;
+  --border:#2a2a2a;--dim:#888;--dim2:#555;
+  --white:#F8F6F1;--green:#4CAF7A;--red:#c0392b;
+  --r:12px;
+  --title-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --body-font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-html{scroll-behavior:smooth}
-body{background:var(--dark);color:var(--white);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--dark);color:var(--white);font-family:var(--body-font);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.1);transition:padding .3s}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px}
-.logo-bar{width:3px;height:22px;background:var(--gold);border-radius:2px;flex-shrink:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.12);transition:padding .25s}
+.logo{font-family:var(--title-font);font-weight:800;font-size:18px;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px;letter-spacing:-.3px}
+.logo-bar{width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0}
 .logo span{color:var(--gold)}
-.nav-cta{background:var(--gold);color:var(--dark);font-weight:700;font-size:13px;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.nav-cta{background:var(--gold);color:var(--dark);font-family:var(--body-font);font-weight:700;font-size:13px;padding:9px 16px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 
 /* ── HERO ── */
-.hero{min-height:100svh;display:flex;align-items:center;padding:90px 20px 60px;position:relative;overflow:hidden}
-.hero::after{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);pointer-events:none}
-.hero-inner{width:100%;max-width:480px;margin:0 auto;position:relative;z-index:1}
-.hero-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;animation:fadeUp .5s ease both}
-.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:36px;line-height:1.1;margin-bottom:18px;animation:fadeUp .5s ease .1s both}
+.hero{min-height:100svh;min-height:100vh;display:flex;align-items:flex-start;padding:80px 20px 48px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-150px;right:-150px;width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);pointer-events:none}
+.hero-inner{width:100%;position:relative;z-index:1}
+
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+
+/* TITOLO — font di sistema, nessun stretch */
+.hero-title{font-family:var(--title-font);font-weight:800;font-size:34px;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px;color:var(--white)}
 .hero-title em{font-style:normal;color:var(--gold)}
-.hero-sub{font-size:16px;color:var(--dim);font-weight:300;line-height:1.7;margin-bottom:24px;animation:fadeUp .5s ease .2s both}
-.hero-sub strong{color:var(--white);font-weight:500}
-.roi-strip{display:flex;align-items:center;gap:12px;background:var(--dark3);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:10px;padding:13px 16px;margin-bottom:28px;animation:fadeUp .5s ease .3s both}
-.roi-num{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--green);white-space:nowrap}
-.roi-div{width:1px;height:28px;background:var(--border);flex-shrink:0}
+
+.hero-sub{font-size:15px;color:var(--dim);font-weight:400;line-height:1.7;margin-bottom:22px}
+.hero-sub strong{color:var(--white);font-weight:600}
+
+.roi-strip{display:flex;align-items:center;gap:10px;background:var(--dark3);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--r);padding:12px 14px;margin-bottom:24px}
+.roi-num{font-family:var(--title-font);font-weight:800;font-size:18px;color:var(--green);white-space:nowrap;letter-spacing:-.3px}
+.roi-div{width:1px;height:26px;background:var(--border);flex-shrink:0}
 .roi-txt{font-size:12px;color:var(--dim);line-height:1.4}
-.roi-txt strong{color:var(--white);display:block;font-size:13px}
-.hero-actions{animation:fadeUp .5s ease .4s both}
-.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;padding:15px 24px;border:none;border-radius:10px;cursor:pointer;text-decoration:none;width:100%;transition:background .2s}
+.roi-txt strong{color:var(--white);display:block;font-size:13px;font-weight:600}
+
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--gold);color:var(--dark);font-family:var(--body-font);font-weight:700;font-size:15px;padding:16px 24px;border:none;border-radius:var(--r);cursor:pointer;text-decoration:none;width:100%;transition:background .2s;-webkit-tap-highlight-color:transparent}
 .btn-primary:active{background:var(--gold2)}
 .hero-note{font-size:11px;color:var(--dim2);margin-top:10px;text-align:center}
 
 /* ── FORM ── */
-.form-wrap{margin-top:32px;animation:fadeUp .5s ease .5s both}
-.form-card{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative}
+.form-wrap{margin-top:28px}
+.form-card{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative}
 .form-card::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.form-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
-.form-sub{font-size:12px;color:var(--dim);margin-bottom:20px}
+.form-title{font-family:var(--title-font);font-weight:700;font-size:17px;margin-bottom:4px;letter-spacing:-.2px}
+.form-sub{font-size:12px;color:var(--dim);margin-bottom:18px}
 .field{margin-bottom:12px}
 .field label{display:block;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;font-weight:500}
-.field input{width:100%;background:var(--dark);border:1px solid var(--border);border-radius:8px;padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--white);outline:none;transition:border-color .2s;-webkit-appearance:none}
+.field input{width:100%;background:var(--dark);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:var(--body-font);font-size:16px;color:var(--white);outline:none;transition:border-color .2s;-webkit-appearance:none;border-radius:8px}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--dim2)}
-/* campo hidden per piano selezionato */
-.plan-hidden{display:none}
-.btn-form{width:100%;background:var(--gold);color:var(--dark);font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:15px;border:none;border-radius:10px;cursor:pointer;margin-top:8px;transition:background .2s}
+.btn-form{width:100%;background:var(--gold);color:var(--dark);font-family:var(--body-font);font-weight:700;font-size:15px;padding:16px;border:none;border-radius:var(--r);cursor:pointer;margin-top:8px;transition:background .2s;-webkit-tap-highlight-color:transparent}
 .btn-form:active{background:var(--gold2)}
 .form-privacy{font-size:11px;color:var(--dim2);text-align:center;margin-top:10px;line-height:1.4}
 
 /* ── SEZIONI ── */
-section{padding:64px 20px;position:relative;z-index:1}
-.si{max-width:480px;margin:0 auto}
+section{padding:56px 20px;position:relative;z-index:1}
+.si{max-width:540px;margin:0 auto}
 .stag{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;font-weight:500}
-.stitle{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;line-height:1.15;margin-bottom:12px}
+.stitle{font-family:var(--title-font);font-weight:800;font-size:26px;line-height:1.15;letter-spacing:-.3px;margin-bottom:10px}
 .ssub{font-size:15px;color:var(--dim);line-height:1.7}
 
 /* ── PAIN ── */
 .pain-section{background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.pain-list{display:flex;flex-direction:column;gap:12px;margin-top:28px}
-.pain-item{display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--dark3);border:1px solid var(--border);border-radius:var(--r)}
-.pain-ico{width:36px;height:36px;flex-shrink:0;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.15);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.pain-list{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.pain-item{display:flex;align-items:flex-start;gap:12px;padding:14px;background:var(--dark3);border:1px solid var(--border);border-radius:var(--r)}
+.pain-ico{width:34px;height:34px;min-width:34px;flex-shrink:0;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
 .pain-body h4{font-size:14px;font-weight:600;margin-bottom:2px}
 .pain-body p{font-size:13px;color:var(--dim);line-height:1.5}
-.pain-calc{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-top:16px}
-.calc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:16px}
-.calc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+
+/* CALCOLO — fix numeri che sbordano */
+.pain-calc{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-top:12px}
+.calc-title{font-family:var(--title-font);font-weight:700;font-size:15px;margin-bottom:14px;letter-spacing:-.2px}
+.calc-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;gap:8px}
 .calc-row:last-of-type{border-bottom:none}
-.calc-row .lbl{color:var(--dim)}
-.calc-row .val{font-weight:600}
-.calc-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 4px}
-.calc-total .lbl{font-size:14px;font-weight:600}
-.calc-total .val{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--red)}
-.calc-sol{background:rgba(76,175,122,.07);border:1px solid rgba(76,175,122,.2);border-radius:9px;padding:12px 14px;margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+.calc-row .lbl{color:var(--dim);flex-shrink:0}
+.calc-row .val{font-weight:600;text-align:right}
+.calc-total{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0 4px;gap:8px}
+.calc-total .lbl{font-size:14px;font-weight:600;flex-shrink:0}
+.calc-total .val{font-family:var(--title-font);font-weight:800;font-size:18px;color:var(--red);text-align:right}
+.calc-sol{background:rgba(76,175,122,.07);border:1px solid rgba(76,175,122,.2);border-radius:8px;padding:11px 13px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .calc-sol .lbl{font-size:13px;color:var(--dim)}
-.calc-sol .val{font-size:16px;font-weight:800;color:var(--green);font-family:'Syne',sans-serif}
+.calc-sol .val{font-size:15px;font-weight:800;color:var(--green);white-space:nowrap}
 
 /* ── STEPS ── */
-.steps{display:flex;flex-direction:column;gap:12px;margin-top:28px}
-.step{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;align-items:center;gap:16px}
-.step-num{width:36px;height:36px;min-width:36px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
-.step h3{font-size:15px;font-weight:600}
+.steps{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.step{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px}
+.step-num{width:34px;height:34px;min-width:34px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--title-font);font-weight:800;font-size:14px;color:var(--gold)}
+.step h3{font-size:15px;font-weight:600;letter-spacing:-.1px}
 
 /* ── ROI ── */
 .roi-section{background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.roi-cards{display:flex;flex-direction:column;gap:12px;margin-top:28px}
-.roi-card{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:24px;display:flex;align-items:center;gap:20px}
-.big-num{font-family:'Syne',sans-serif;font-weight:800;font-size:42px;line-height:1;min-width:100px}
+.roi-cards{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.roi-card{background:var(--dark3);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;align-items:center;gap:16px}
+/* numeri ROI — font sistema, dimensione controllata */
+.big-num{font-family:var(--title-font);font-weight:800;font-size:36px;line-height:1;min-width:80px;letter-spacing:-.5px}
 .big-num.gold{color:var(--gold)}
 .big-num.green{color:var(--green)}
 .big-num.white{color:var(--white)}
-.roi-info .roi-label{font-size:14px;color:var(--white);font-weight:500;margin-bottom:3px}
+.roi-info .roi-label{font-size:14px;color:var(--white);font-weight:600;margin-bottom:2px}
 .roi-info .roi-desc{font-size:12px;color:var(--dim);line-height:1.5}
 
 /* ── PRICING ── */
-.pricing-stack{display:flex;flex-direction:column;gap:14px;margin-top:28px}
-.price-card{background:var(--dark3);border:2px solid var(--border);border-radius:var(--r);padding:24px;position:relative;cursor:pointer;transition:border-color .25s,background .25s;-webkit-tap-highlight-color:transparent}
+.pricing-stack{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.price-card{background:var(--dark3);border:2px solid var(--border);border-radius:var(--r);padding:20px;position:relative;cursor:pointer;transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;user-select:none}
 .price-card.selected{border-color:var(--gold);background:rgba(201,168,76,.04)}
 .price-card.selected::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.price-sel-dot{position:absolute;top:20px;right:20px;width:20px;height:20px;border-radius:50%;border:2px solid var(--border);transition:all .25s;display:flex;align-items:center;justify-content:center}
+.price-sel-dot{position:absolute;top:18px;right:18px;width:20px;height:20px;border-radius:50%;border:2px solid var(--border);transition:all .2s;display:flex;align-items:center;justify-content:center;background:transparent}
 .price-card.selected .price-sel-dot{border-color:var(--gold);background:var(--gold)}
-.price-sel-dot::after{content:'✓';font-size:11px;font-weight:700;color:var(--dark);opacity:0;transition:opacity .2s}
-.price-card.selected .price-sel-dot::after{opacity:1}
-.price-badge{display:inline-block;background:var(--gold);color:var(--dark);font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
-.price-name{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:3px;padding-right:30px}
-.price-desc{font-size:13px;color:var(--dim);margin-bottom:16px}
-.price-amount{display:flex;align-items:baseline;gap:3px;margin-bottom:2px}
-.price-amount .sym{font-size:16px;color:var(--dim);font-weight:300}
-.price-amount .num{font-family:'Syne',sans-serif;font-weight:800;font-size:44px;color:var(--gold);line-height:1}
-.price-amount .mo{font-size:13px;color:var(--dim)}
+.price-check{font-size:11px;font-weight:700;color:var(--dark);opacity:0;transition:opacity .2s}
+.price-card.selected .price-check{opacity:1}
+.price-badge{display:inline-block;background:var(--gold);color:var(--dark);font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.price-name{font-family:var(--title-font);font-weight:700;font-size:17px;margin-bottom:2px;padding-right:28px;letter-spacing:-.2px}
+.price-desc{font-size:13px;color:var(--dim);margin-bottom:14px}
+/* prezzo — font sistema, size ridotta per evitare stretch */
+.price-amount{display:flex;align-items:baseline;gap:2px;margin-bottom:2px}
+.price-amount .sym{font-size:15px;color:var(--dim);font-weight:400}
+.price-amount .num{font-family:var(--title-font);font-weight:800;font-size:40px;color:var(--gold);line-height:1;letter-spacing:-.5px}
+.price-amount .mo{font-size:13px;color:var(--dim);margin-left:2px}
 .price-setup{font-size:12px;color:var(--dim2);margin-bottom:6px}
-.price-promo{font-size:12px;color:var(--green);background:rgba(76,175,122,.07);border:1px solid rgba(76,175,122,.15);border-radius:6px;padding:4px 10px;display:inline-block;margin-bottom:16px}
-.price-features{list-style:none;display:flex;flex-direction:column;gap:8px}
+.price-promo{font-size:12px;color:var(--green);background:rgba(76,175,122,.07);border:1px solid rgba(76,175,122,.15);border-radius:6px;padding:4px 10px;display:inline-block;margin-bottom:14px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:7px}
 .price-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim)}
 .price-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
 
-/* annuale */
-.annual-box{margin-top:14px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.annual-box .atitle{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin-bottom:2px}
-.annual-box .adesc{font-size:12px;color:var(--dim)}
+.annual-box{margin-top:12px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:var(--r);padding:16px 18px}
+.annual-box .atitle{font-family:var(--title-font);font-weight:700;font-size:14px;color:var(--gold);margin-bottom:4px;letter-spacing:-.1px}
+.annual-box .adesc{font-size:12px;color:var(--dim);margin-bottom:12px}
+.btn-annual{display:block;text-align:center;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:var(--body-font);font-weight:700;font-size:13px;padding:10px;border-radius:8px;text-decoration:none;-webkit-tap-highlight-color:transparent}
 
 /* ── FINAL CTA ── */
-.final-cta{text-align:center;padding:72px 20px;position:relative;overflow:hidden}
-.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 70%);pointer-events:none}
-.final-inner{position:relative;z-index:1;max-width:480px;margin:0 auto}
-.final-title{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;line-height:1.15;margin-bottom:12px}
-.final-sub{font-size:15px;color:var(--dim);margin-bottom:28px}
+.final-cta{text-align:center;padding:64px 20px;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none}
+.final-inner{position:relative;z-index:1}
+.final-title{font-family:var(--title-font);font-weight:800;font-size:26px;line-height:1.15;letter-spacing:-.3px;margin-bottom:10px}
+.final-sub{font-size:15px;color:var(--dim);margin-bottom:24px}
 
-footer{border-top:1px solid var(--border);padding:24px 20px;text-align:center;font-size:12px;color:var(--dim2)}
+footer{border-top:1px solid var(--border);padding:22px 20px;text-align:center;font-size:12px;color:var(--dim2)}
 footer a{color:var(--gold);text-decoration:none}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── DESKTOP ── */
 @media(min-width:820px){
-  nav{padding:18px 48px}
-  .hero{padding:110px 48px 80px}
-  .hero-inner{max-width:1140px;display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center}
-  .hero-title{font-size:52px}
-  .form-wrap{margin-top:0;animation:fadeUp .5s ease .15s both}
-  section{padding:88px 48px}
+  nav{padding:16px 48px}
+  .hero{padding:100px 48px 72px;align-items:center}
+  .hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:center}
+  .hero-title{font-size:48px}
+  .form-wrap{margin-top:0}
+  section{padding:80px 48px}
   .si{max-width:1140px}
-  .stitle{font-size:38px}
-  .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:40px}
+  .stitle{font-size:36px}
+  .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:36px}
   .pain-list{margin-top:0}
   .pain-calc{margin-top:0}
-  .steps{flex-direction:row;gap:20px}
-  .step{flex-direction:column;align-items:flex-start;gap:14px}
+  .steps{flex-direction:row}
+  .step{flex-direction:column;align-items:flex-start;gap:12px;flex:1}
   .roi-cards{flex-direction:row}
-  .roi-card{flex-direction:column;align-items:flex-start;gap:8px;flex:1}
-  .big-num{font-size:48px;min-width:auto}
-  .pricing-stack{flex-direction:row;max-width:780px;margin:40px auto 0}
+  .roi-card{flex-direction:column;align-items:flex-start;flex:1;gap:6px}
+  .big-num{font-size:44px;min-width:auto}
+  .pricing-stack{flex-direction:row;max-width:780px;margin:36px auto 0}
   .price-card{flex:1}
-  .annual-box{max-width:780px;margin:14px auto 0}
-  .final-title{font-size:44px}
-  .final-inner{max-width:640px}
-  .btn-primary{width:auto}
+  .annual-box{max-width:780px;margin:12px auto 0;display:flex;align-items:center;gap:20px}
+  .annual-box .adesc{margin-bottom:0}
+  .btn-annual{white-space:nowrap;padding:10px 18px}
+  .final-title{font-size:42px}
+  .btn-primary{width:auto;display:inline-flex}
 }
 </style>
 </head>
@@ -197,10 +207,8 @@ footer a{color:var(--gold);text-decoration:none}
           4-5 ore × tariffa 120–160€/ora
         </div>
       </div>
-      <div class="hero-actions">
-        <a href="#form" class="btn-primary">Richiedi una demo gratuita →</a>
-        <p class="hero-note">Nessun impegno · 10 minuti · Funziona da browser</p>
-      </div>
+      <a href="#form" class="btn-primary">Richiedi una demo gratuita →</a>
+      <p class="hero-note">Nessun impegno · 10 minuti · Funziona da browser</p>
     </div>
 
     <div class="form-wrap" id="form">
@@ -210,13 +218,12 @@ footer a{color:var(--gold);text-decoration:none}
         <form onsubmit="handleSubmit(event)">
           <div class="field">
             <label>Nome e Cognome</label>
-            <input type="text" name="name" placeholder="Dott. Mario Rossi" required>
+            <input type="text" id="inp-name" placeholder="Dott. Mario Rossi" required autocomplete="name">
           </div>
           <div class="field">
             <label>Email</label>
-            <input type="email" name="email" placeholder="mario.rossi@studio.it" required>
+            <input type="email" id="inp-email" placeholder="mario.rossi@studio.it" required autocomplete="email">
           </div>
-          <input type="hidden" name="plan" class="plan-hidden" value="Non selezionato">
           <button type="submit" class="btn-form">Voglio vedere la demo →</button>
         </form>
         <p class="form-privacy">🔒 Nessun impegno. Ti rispondiamo entro 24 ore.</p>
@@ -274,18 +281,9 @@ footer a{color:var(--gold);text-decoration:none}
     <div class="stag">Come funziona</div>
     <h2 class="stitle">Tre passi.<br>Poi il sistema<br>lavora per te.</h2>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Carica il documento</h3>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Il sistema abbina</h3>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Il cliente riceve</h3>
-      </div>
+      <div class="step"><div class="step-num">1</div><h3>Carica il documento</h3></div>
+      <div class="step"><div class="step-num">2</div><h3>Il sistema abbina</h3></div>
+      <div class="step"><div class="step-num">3</div><h3>Il cliente riceve</h3></div>
     </div>
   </div>
 </section>
@@ -298,24 +296,15 @@ footer a{color:var(--gold);text-decoration:none}
     <div class="roi-cards">
       <div class="roi-card">
         <div class="big-num gold" data-count="39" data-suffix="€">39€</div>
-        <div class="roi-info">
-          <div class="roi-label">al mese</div>
-          <div class="roi-desc">Primo mese incluso nel setup.</div>
-        </div>
+        <div class="roi-info"><div class="roi-label">al mese</div><div class="roi-desc">Primo mese incluso nel setup.</div></div>
       </div>
       <div class="roi-card">
         <div class="big-num green" data-count="600" data-suffix="€">600€</div>
-        <div class="roi-info">
-          <div class="roi-label">recuperati ogni mese</div>
-          <div class="roi-desc">4-5 ore × 120€/ora di tariffa media.</div>
-        </div>
+        <div class="roi-info"><div class="roi-label">recuperati ogni mese</div><div class="roi-desc">4-5 ore × 120€/ora di tariffa media.</div></div>
       </div>
       <div class="roi-card">
         <div class="big-num white" data-count="15" data-suffix="×">15×</div>
-        <div class="roi-info">
-          <div class="roi-label">ritorno sull'investimento</div>
-          <div class="roi-desc">Per ogni euro speso recuperi 15 euro di tempo fatturabile.</div>
-        </div>
+        <div class="roi-info"><div class="roi-label">ritorno investimento</div><div class="roi-desc">Per ogni euro speso recuperi 15 euro di tempo fatturabile.</div></div>
       </div>
     </div>
   </div>
@@ -327,15 +316,12 @@ footer a{color:var(--gold);text-decoration:none}
     <div class="stag">Prezzi</div>
     <h2 class="stitle">Semplice<br>e trasparente.</h2>
     <p class="ssub">Seleziona il piano più adatto al tuo studio.</p>
-
     <div class="pricing-stack">
       <div class="price-card" id="plan-small" onclick="selectPlan('small')">
-        <div class="price-sel-dot"></div>
+        <div class="price-sel-dot"><span class="price-check">✓</span></div>
         <div class="price-name">Fino a 50 clienti</div>
         <div class="price-desc">Per studi di piccole dimensioni</div>
-        <div class="price-amount">
-          <span class="sym">€</span><span class="num">39</span><span class="mo">/mese</span>
-        </div>
+        <div class="price-amount"><span class="sym">€</span><span class="num">39</span><span class="mo">/mese</span></div>
         <p class="price-setup">Setup iniziale: €120 una tantum</p>
         <div class="price-promo">✓ Primo mese incluso nel setup</div>
         <ul class="price-features">
@@ -346,15 +332,12 @@ footer a{color:var(--gold);text-decoration:none}
           <li>Supporto via email</li>
         </ul>
       </div>
-
       <div class="price-card" id="plan-big" onclick="selectPlan('big')">
-        <div class="price-sel-dot"></div>
+        <div class="price-sel-dot"><span class="price-check">✓</span></div>
         <div class="price-badge">Studi medi e grandi</div>
         <div class="price-name">Oltre 50 clienti</div>
         <div class="price-desc">Per studi con più clienti</div>
-        <div class="price-amount">
-          <span class="sym">€</span><span class="num">70</span><span class="mo">/mese</span>
-        </div>
+        <div class="price-amount"><span class="sym">€</span><span class="num">70</span><span class="mo">/mese</span></div>
         <p class="price-setup">Setup iniziale: €200 una tantum</p>
         <div class="price-promo">✓ Primo mese incluso nel setup</div>
         <ul class="price-features">
@@ -366,13 +349,12 @@ footer a{color:var(--gold);text-decoration:none}
         </ul>
       </div>
     </div>
-
     <div class="annual-box">
       <div>
         <div class="atitle">🎁 Abbonamento annuale — 15% di sconto</div>
         <div class="adesc">Scegli il pagamento annuale e risparmia 2 mesi ogni anno.</div>
       </div>
-      <a href="#form" class="btn-primary" style="width:auto;padding:11px 20px;font-size:13px">Scopri →</a>
+      <a href="#form" class="btn-annual">Scopri →</a>
     </div>
   </div>
 </section>
@@ -393,8 +375,23 @@ footer a{color:var(--gold);text-decoration:none}
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-/* ── EMAILJS — sostituisci i 3 valori qui sotto ── */
-emailjs.init("c8fFFBt8jsD-oqM4O");
+/* ══════════════════════════════════════
+   SOSTITUISCI I 3 VALORI QUI SOTTO
+   ══════════════════════════════════════ */
+const EMAILJS_PUBLIC_KEY  = "LA_TUA_PUBLIC_KEY";
+const EMAILJS_SERVICE_ID  = "IL_TUO_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "IL_TUO_TEMPLATE_ID";
+/* ══════════════════════════════════════ */
+
+emailjs.init(c8fFFBt8jsD-oqM4O);
+
+let selectedPlan = "Non selezionato";
+
+function selectPlan(plan) {
+  document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('plan-' + plan).classList.add('selected');
+  selectedPlan = plan === 'small' ? 'Fino a 50 clienti (39€/mese)' : 'Oltre 50 clienti (70€/mese)';
+}
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -403,26 +400,25 @@ function handleSubmit(e) {
   btn.textContent = 'Invio in corso...';
   btn.disabled = true;
 
-  emailjs.sendForm("service_z9mrcwj", "template_32v30wfD", e.target)
-    .then(() => {
-      btn.textContent = '✓ Ricevuto! Ti contatteremo presto.';
-      btn.style.background = '#4CAF7A';
-      btn.style.color = '#fff';
-    })
-    .catch(() => {
-      btn.textContent = orig;
-      btn.disabled = false;
-      alert('Errore nell\'invio. Scrivici a studioflow.m@gmail.com');
-    });
-}
+  const name  = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email').value.trim();
 
-/* ── PRICING SELEZIONABILE ── */
-function selectPlan(plan) {
-  document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
-  const card = document.getElementById('plan-' + plan);
-  card.classList.add('selected');
-  const label = plan === 'small' ? 'Fino a 50 clienti (€39/mese)' : 'Oltre 50 clienti (€70/mese)';
-  document.querySelector('.plan-hidden').value = label;
+  emailjs.send(service_z9mrcwj, template_32v30wf, {
+    name:  name,
+    email: email,
+    plan:  selectedPlan
+  })
+  .then(() => {
+    btn.textContent = '✓ Ricevuto! Ti contatteremo presto.';
+    btn.style.background = '#4CAF7A';
+    btn.style.color = '#0D0D0D';
+  })
+  .catch(err => {
+    console.error('EmailJS:', JSON.stringify(err));
+    btn.textContent = orig;
+    btn.disabled = false;
+    alert('Errore. Scrivici a studioflow.m@gmail.com');
+  });
 }
 
 /* ── SMOOTH SCROLL ── */
@@ -434,64 +430,54 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── SCROLL ANIMATIONS (IntersectionObserver, hardware accelerated) ── */
-const revealEls = document.querySelectorAll(
-  '.pain-item,.step,.roi-card,.price-card,.form-card,.pain-calc,.stitle,.ssub,.stag,.roi-strip,.final-title,.final-sub,.annual-box'
-);
-revealEls.forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity .5s ease, transform .5s ease';
-  el.style.willChange = 'opacity,transform';
-});
-const ro = new IntersectionObserver(entries => {
+/* ── SCROLL ANIMATIONS ── */
+const obs = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (!en.isIntersecting) return;
     en.target.style.opacity = '1';
     en.target.style.transform = 'translateY(0)';
     en.target.style.willChange = 'auto';
-    ro.unobserve(en.target);
+    obs.unobserve(en.target);
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-revealEls.forEach(el => ro.observe(el));
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-document.querySelectorAll('.step').forEach((el,i) => el.style.transitionDelay = `${i*.1}s`);
-document.querySelectorAll('.pain-item').forEach((el,i) => el.style.transitionDelay = `${i*.08}s`);
-document.querySelectorAll('.roi-card').forEach((el,i) => el.style.transitionDelay = `${i*.1}s`);
-document.querySelectorAll('.price-card').forEach((el,i) => el.style.transitionDelay = `${i*.1}s`);
+document.querySelectorAll('.pain-item,.step,.roi-card,.price-card,.pain-calc,.stitle,.ssub,.stag,.roi-strip,.final-title,.final-sub,.annual-box').forEach((el, i) => {
+  el.style.cssText += ';opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;will-change:opacity,transform';
+  obs.observe(el);
+});
+document.querySelectorAll('.step').forEach((el,i)     => el.style.transitionDelay = i*.1+'s');
+document.querySelectorAll('.pain-item').forEach((el,i) => el.style.transitionDelay = i*.08+'s');
+document.querySelectorAll('.roi-card').forEach((el,i)  => el.style.transitionDelay = i*.1+'s');
+document.querySelectorAll('.price-card').forEach((el,i)=> el.style.transitionDelay = i*.1+'s');
 
 /* ── COUNTER ── */
-function animCounter(el, target, suffix, dur=1100) {
-  let start = null;
-  const run = ts => {
-    if (!start) start = ts;
-    const p = Math.min((ts-start)/dur, 1);
-    const e = 1 - Math.pow(1-p, 3);
-    el.textContent = Math.floor(target*e) + suffix;
-    if (p < 1) requestAnimationFrame(run);
-    else el.textContent = target + suffix;
-  };
-  requestAnimationFrame(run);
-}
 const co = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (!en.isIntersecting) return;
-    const el = en.target;
-    animCounter(el, parseFloat(el.dataset.count), el.dataset.suffix||'');
+    const el = en.target, target = parseFloat(el.dataset.count), suf = el.dataset.suffix||'';
+    let start = null;
+    const run = ts => {
+      if (!start) start = ts;
+      const p = Math.min((ts-start)/1000,1);
+      el.textContent = Math.floor(target*(1-Math.pow(1-p,3))) + suf;
+      if (p<1) requestAnimationFrame(run); else el.textContent = target+suf;
+    };
+    requestAnimationFrame(run);
     co.unobserve(el);
   });
-}, { threshold: 0.5 });
+}, {threshold:.5});
 document.querySelectorAll('[data-count]').forEach(el => co.observe(el));
 
-/* ── NAV COMPACT ON SCROLL ── */
+/* ── NAV COMPACT ── */
 const nav = document.querySelector('nav');
 window.addEventListener('scroll', () => {
-  nav.style.padding = window.scrollY > 50
-    ? (window.innerWidth > 820 ? '12px 48px' : '10px 20px')
-    : (window.innerWidth > 820 ? '18px 48px' : '14px 20px');
-}, { passive: true });
+  const isDesktop = window.innerWidth > 820;
+  nav.style.padding = window.scrollY > 40
+    ? (isDesktop ? '11px 48px' : '10px 20px')
+    : (isDesktop ? '16px 48px' : '14px 20px');
+}, {passive:true});
 
-/* ── PARALLAX HERO (solo desktop, solo CPU-friendly) ── */
+/* ── PARALLAX HERO (solo desktop) ── */
 if (window.innerWidth > 820) {
   const hi = document.querySelector('.hero-inner');
   let tick = false;
@@ -499,14 +485,13 @@ if (window.innerWidth > 820) {
     if (!tick) {
       requestAnimationFrame(() => {
         if (window.scrollY < window.innerHeight && hi)
-          hi.style.transform = `translateY(${window.scrollY * 0.05}px)`;
+          hi.style.transform = `translateY(${window.scrollY*.04}px)`;
         tick = false;
       });
       tick = true;
     }
-  }, { passive: true });
+  }, {passive:true});
 }
 </script>
 </body>
 </html>
-
