@@ -462,7 +462,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const ctx = canvas.getContext('2d');
   let W, H, scrollY = 0, nodi = [];
   const N_NODI = 28;
-  const DIST_MAX = 160;
+  const DIST_MAX = 220;
 
   function resize(){
     W = canvas.width  = window.innerWidth;
@@ -509,7 +509,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         const dy = nodi[i].y - nodi[j].y;
         const d  = Math.sqrt(dx*dx + dy*dy);
         if(d < DIST_MAX){
-          const alpha = (1 - d / DIST_MAX) * .18;
+          const alpha = (1 - d / DIST_MAX) * .45;
           const useGold = nodi[i].gold || nodi[j].gold;
           ctx.beginPath();
           ctx.moveTo(nodi[i].x, nodi[i].y);
