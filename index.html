@@ -408,7 +408,7 @@ const EMAILJS_SERVICE_ID  = "service_z9mrcwjD";
 const EMAILJS_TEMPLATE_ID = "template_32v30wf";
 /* ══════════════════════════════════════ */
 
-emailjs.init(EMAILJS_PUBLIC_KEY);
+emailjs.init("c8fFFBt8jsD-oqM4OY");
 
 function getInputs() {
   // prende i campi dal form visibile (desktop o mobile)
@@ -429,7 +429,7 @@ function handleSubmit(e) {
 
   const { name, email } = getInputs();
 
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { name, email })
+  emailjs.send("service_z9mrcwjD", "template_32v30wf", { name, email })
   .then(() => {
     btn.textContent = '✓ Ricevuto! Ti contatteremo presto.';
     btn.style.background = '#4CAF7A';
